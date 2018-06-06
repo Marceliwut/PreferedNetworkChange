@@ -1,18 +1,4 @@
-﻿<#
-.SYNOPSIS
-    Powershell script for changing Prefered wireless adapter bandwith to 5.x GHz
-.EXAMPLE 
-   .\SetNICto52GHzBandwidth
-.PARAMETER
-    None
-.DESCRIPTION
-	Changes Wi-Fi Prefered Bandwith to work on 5.x Ghz. Saves log in C:\Temp\Set-NICto52GhzBandwidth_$ComputerName.log file.
-.NOTES 
-	Author: Marcin Mirzynski
-	Script inspiried by another one found online. Unable to identify its original author.
-#> 
-
-function getPrefix {
+﻿function getPrefix {
 [string]$ComputerName = $env:computerName
  $prefix = "[ $ComputerName ] [" + $(Get-Date -Format "dd") + "-" + $(Get-Date -Format "MM") + "-" + $(Get-Date -Format "yyyy") + "_" + $(Get-Date -Format "HH") + ":" + $(Get-Date -Format "mm") + "]"
  return $prefix
@@ -36,10 +22,12 @@ if($WLAN_NIC){
 #Write-Output "Getting original preferred band configuration" | Out-File $LogFile -Append
 $OrigPreferredBand = Get-NetAdapterAdvancedProperty -Name $WLAN_NIC.name | ? {$_.DisplayName.Contains("Preferred Band")}
 
-Write-Output $(getPrefix) "Original preferred band is `"$($OrigPreferredBand.DisplayValue)`"..." | Out-File $LogFile -Append
+$outputString = $(getPrefix) + " Original preferred band is `"$($OrigPreferredBand.DisplayValue)`"..." 
+Write-Output $outputString | Out-File $LogFile -Append
 
 If ($PreferredBand -Contains $OrigPreferredBand.DisplayValue) {
-	Write-Output $(getPrefix) "No need to change the setting to 5.XGHz band" | Out-File $LogFile -Append
+	$outputString = $(getPrefix) + " No need to change the setting to 5.XGHz band"
+	Write-Output $outputString | Out-File $LogFile -Append
 }
 else {
     #try all possible values for 5.X band
