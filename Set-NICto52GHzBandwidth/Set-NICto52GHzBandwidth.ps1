@@ -1,4 +1,18 @@
-﻿function getPrefix {
+﻿<#
+.SYNOPSIS
+    Powershell script for changing Prefered wireless adapter bandwith to 5.x GHz
+.EXAMPLE 
+   .\SetNICto52GHzBandwidth
+.PARAMETER
+    None
+.DESCRIPTION
+	Changes Wi-Fi Prefered Bandwith to work on 5.x Ghz. Saves log in C:\Temp\Set-NICto52GhzBandwidth_$ComputerName.log file.
+.NOTES 
+	Author: Marcin Mirzynski
+	Script inspiried by another one found online. Unable to identify its original author.
+#> 
+
+function getPrefix {
 [string]$ComputerName = $env:computerName
  $prefix = "[ $ComputerName ] [" + $(Get-Date -Format "dd") + "-" + $(Get-Date -Format "MM") + "-" + $(Get-Date -Format "yyyy") + "_" + $(Get-Date -Format "HH") + ":" + $(Get-Date -Format "mm") + "]"
  return $prefix
@@ -8,7 +22,7 @@
 [string]$ComputerName = $env:computerName
 
 #Log file will containt name of the script and ComputerName
-$LogFile = "C:\Temp\Set-NICto52GHzBandwidth_" + $ComputerName + ".log"
+$LogFile = "C:\Windows\@MYPCMGT\LOGS\Set-NICto52GHzBandwidth_" + $ComputerName + ".log"
 if(Test-Path $LogFile){
     Remove-Item $LogFile
 }
